@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import cn from "classnames"
 import s from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerIngredientsCategory from "../burger-ingredients-category/BurgerIngredientsCategory";
+import BurgerIngredientsCategory from "../BurgerIngredientsCategory/BurgerIngredientsCategory";
 import {burgerPropType} from "../../utils/prop-types";
 
 const BurgerIngredients = ({burgerData}) => {
@@ -42,6 +42,6 @@ const BurgerIngredients = ({burgerData}) => {
 };
 
 BurgerIngredients.propTypes = {
-    burgerData: burgerPropType
+    burgerData: burgerPropType.isRequired
 }
 export default BurgerIngredients;

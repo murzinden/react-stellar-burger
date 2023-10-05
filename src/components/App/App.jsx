@@ -1,17 +1,17 @@
-import s from "./app.module.css";
+import s from "./App.module.css";
 import {data} from "../../utils/data";
-import AppHeader from "../app-header/AppHeader";
+import AppHeader from "../AppHeader/AppHeader";
 import cn from "classnames";
-import BurgerConstructor from "../burger-constructor/BurgerConstructor";
+import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import {useEffect, useState} from "react";
-import BurgerIngredients from "../burger-ingredients/BurgerIngredients";
+import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 
 
 function App() {
     const url = 'https://norma.nomoreparties.space/api/ingredients'
     const [ingredients, setIngredients] = useState({data})
     useEffect(() => {
-        const serverData = async () => {
+        const getIngredients = async () => {
             try {
                 const response = await fetch(url)
                 if (!response.ok) {
@@ -24,7 +24,7 @@ function App() {
                 console.log('Error fetching data:', error)
             }
         }
-        serverData()
+        getIngredients()
     }, [])
 
 

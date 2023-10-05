@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import cn from "classnames"
 import s from './BurgerConstructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components"
-import Modal from "../modal/Modal";
-import OrderDetails from "../order-details/OrderDetails";
+import Modal from "../Modal/Modal";
+import OrderDetails from "../OrderDetails/OrderDetails";
 import {burgerPropType} from "../../utils/prop-types";
 
 
@@ -11,6 +11,9 @@ const BurgerConstructor = ({burgerData}) => {
     const [isActive, setActive] = useState(false)
     const buns = burgerData.filter(el => el.type === 'bun')
     const mainsAndSauces = burgerData.filter(el => el.type !== 'bun')
+    const handleClose = () => {
+        setActive(false);
+    };
     const getRandomArrIndex = array => {
         return Math.floor(Math.random() * array.length)
     }
@@ -60,7 +63,7 @@ const BurgerConstructor = ({burgerData}) => {
                 </div>
             </section>
             {
-                isActive && <Modal isActive={isActive} setActive={setActive}>
+                isActive && <Modal onClose={handleClose}>
                     <OrderDetails/>
                 </Modal>
             }
@@ -69,6 +72,6 @@ const BurgerConstructor = ({burgerData}) => {
 };
 
 BurgerConstructor.propTypes = {
-    burgerData: burgerPropType
+    burgerData: burgerPropType.isRequired
 }
 export default BurgerConstructor;

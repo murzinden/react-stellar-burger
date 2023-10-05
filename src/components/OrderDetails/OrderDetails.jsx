@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from "classnames"
-import s from '../modal/Modal.module.css'
+import s from '../Modal/Modal.module.css'
 import orderImagesDone from '../../images/done.png'
 
 const OrderDetails = () => {

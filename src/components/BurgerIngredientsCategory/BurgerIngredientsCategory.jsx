@@ -1,8 +1,9 @@
 import React from 'react';
 import cn from "classnames"
 import s from './BurgerIngredientsCategory.module.css'
-import BurgerIngredient from "../burger-ingredient/BurgerIngredient";
+import BurgerIngredient from "../BurgerIngredient/BurgerIngredient";
 import {burgerPropType} from "../../utils/prop-types";
+import PropTypes from "prop-types";
 
 const BurgerIngredientsCategory = ({burgerData, title}) => {
 
@@ -18,6 +19,7 @@ const BurgerIngredientsCategory = ({burgerData, title}) => {
     );
 };
 BurgerIngredientsCategory.propTypes = {
-    burgerPropType
+    burgerData: burgerPropType.isRequired,
+    title: PropTypes.string.isRequired
 }
 export default BurgerIngredientsCategory;

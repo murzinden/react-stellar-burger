@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
+import PropTypes from "prop-types";
 import cn from "classnames"
 import s from './Modal.module.css'
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components"
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import {createPortal} from "react-dom";
-import PropTypes from "prop-types";
+
 
 
 const Modal = ({children, onClose}) => {

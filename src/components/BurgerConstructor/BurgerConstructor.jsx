@@ -1,69 +1,91 @@
-import React, {useState} from 'react'
+import React, {useMemo, useState} from 'react'
 import cn from "classnames"
 import s from './BurgerConstructor.module.css'
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components"
+import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components"
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import {burgerPropType} from "../../utils/prop-types";
+import {useDispatch, useSelector} from "react-redux";
+import BurgerConstructorElement from "../BurgerConstructorElement/BurgerConstructorElement";
+import {useDrop} from "react-dnd";
+import {addItem} from "../../services/actions/constructorAction";
 
 
-const BurgerConstructor = ({burgerData}) => {
+
+const BurgerConstructor = () => {
     const [isActive, setActive] = useState(false)
-    const buns = burgerData.filter(el => el.type === 'bun')
-    const mainsAndSauces = burgerData.filter(el => el.type !== 'bun')
-    const handleClose = () => {
-        setActive(false);
-    };
-    const getRandomArrIndex = array => {
-        return Math.floor(Math.random() * array.length)
+    const dispatch = useDispatch()
+    const {items, bun} = useSelector(state => state.burgerConstructor)
+
+    const finalPrice = useMemo(() => {
+        let res = 0
+        if (bun) {
+            res += bun.price * 2
+        }
+        if (items) {
+            res += items.reduce((acc, i) => acc + i.price, 0)
+        }
+        return res
+    }, [items, bun])
+
+    const [{isOver, canDrop, itemDrag}, dropTarget] = useDrop({
+        accept: 'ingredient',
+        drop: (item) => (
+            dispatch(addItem(item))
+        ),
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+            canDrop: monitor.canDrop(),
+            itemDrag: monitor.getItem()
+        })
+    })
+
+    const processOrder = () => {
+        setActive(true)
     }
-    const randomBun = buns[getRandomArrIndex(buns)]
-    let sum = randomBun.price * 2 + mainsAndSauces.reduce((acc, i) => acc + i.price, 0)
 
     return (
         <>
-            <section className={cn(s.burger__constructor)}>
-                <div className={cn(s.burger__item, 'ml-8 mb-4' + '')}>
+            <section className={cn(s.burger__constructor)} ref={dropTarget}>
+                {bun && <div className={cn(s.burger__item, 'ml-8 mb-4')}>
                     <ConstructorElement
                         type="top"
                         isLocked={true}
-                        text={randomBun.name + ' (верх)'}
-                        thumbnail={randomBun.image}
-                        price={randomBun.price}
+                        text={bun.name + ' (верх)'}
+                        thumbnail={bun.image}
+                        price={bun.price}
                     />
-                </div>
+                </div>}
                 <ul className={cn(s.burger__list, s.scroll__container)}>
-                    {mainsAndSauces.map((item, index) =>
-                        <li className={cn(s.burger__item, 'mb-4 mr-2 ml-4')} key={index}>
-                            <DragIcon type="primary"/>
-                            <ConstructorElement
-                                text={item.name}
-                                thumbnail={item.image}
-                                price={item.price}
-                            />
-                        </li>)}
+                    {items?.map((item, index) => {
+                        return (<BurgerConstructorElement
+                            key={item.uuid}
+                            index={index}
+                            item={item}
+                        />)
+                    })
+                    }
                 </ul>
-                <div className={cn(s.burger__item, 'ml-8' + '')}>
+                {bun && <div className={cn(s.burger__item, 'ml-8')}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text={randomBun.name + ' (низ)'}
-                        thumbnail={randomBun.image}
-                        price={randomBun.price}
+                        text={bun.name + ' (низ)'}
+                        thumbnail={bun.image}
+                        price={bun.price}
                     />
-                </div>
+                </div>}
                 <div className={cn(s.burger__order, 'mt-10')}>
-                    <Button onClick={() => setActive(true)} htmlType="button" type="primary" size="large">
+                    <Button disabled={!bun} onClick={processOrder} htmlType="button" type="primary" size="large" >
                         Оформить заказ
                     </Button>
                     <div className={cn(s.burger__price, 'mr-10')}>
-                        <p className="text text_type_digits-medium">{sum}</p>
+                        <p className="text text_type_digits-medium">{finalPrice}</p>
                         <CurrencyIcon type="primary"/>
                     </div>
                 </div>
             </section>
             {
-                isActive && <Modal onClose={handleClose}>
+                isActive && <Modal isActive={isActive} setActive={setActive}>
                     <OrderDetails/>
                 </Modal>
             }
@@ -71,7 +93,4 @@ const BurgerConstructor = ({burgerData}) => {
     );
 };
 
-BurgerConstructor.propTypes = {
-    burgerData: burgerPropType.isRequired
-}
 export default BurgerConstructor;

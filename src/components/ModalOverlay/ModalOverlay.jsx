@@ -6,7 +6,7 @@ const ModalOverlay = ({closePopup}) => {
     
     return (
         <div
-            onClick={() => {closePopup()}}
+            onClick={closePopup}
             className={s.overlay}
         >
         </div>

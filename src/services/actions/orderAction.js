@@ -26,7 +26,7 @@ export const getOrderResponse = (array) => {
                 dispatch(getOrderNumber(res.order.number))
                 dispatch(clearConstructor())
             })
-            .catch(error => console.log('Error fetching data: ', error))
+            .catch(console.error)
     }
 }
 

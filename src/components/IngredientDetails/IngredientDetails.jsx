@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import cn from "classnames"
 import s from '../Modal/Modal.module.css'
-import {ingredientPropType} from "../../utils/prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {clearIngredientInfo} from "../../services/actions/ingredientDetailsAction";
 
@@ -45,7 +44,4 @@ const IngredientDetails = () => {
     );
 };
 
-IngredientDetails.propTypes = {
-    ingredient: ingredientPropType
-}
 export default IngredientDetails;

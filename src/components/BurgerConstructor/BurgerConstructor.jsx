@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react'
+import React, {useMemo} from 'react'
 import cn from "classnames"
 import s from './BurgerConstructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components"
@@ -8,11 +8,12 @@ import {useDispatch, useSelector} from "react-redux";
 import BurgerConstructorElement from "../BurgerConstructorElement/BurgerConstructorElement";
 import {useDrop} from "react-dnd";
 import {addItem} from "../../services/actions/constructorAction";
+import {useModal} from "../../hooks/useModal";
 
 
 
 const BurgerConstructor = () => {
-    const [isActive, setActive] = useState(false)
+    const {isModalOpen, openModal, closeModal} = useModal();
     const dispatch = useDispatch()
     const {items, bun} = useSelector(state => state.burgerConstructor)
 
@@ -40,7 +41,7 @@ const BurgerConstructor = () => {
     })
 
     const processOrder = () => {
-        setActive(true)
+        openModal()
     }
 
     return (
@@ -85,7 +86,7 @@ const BurgerConstructor = () => {
                 </div>
             </section>
             {
-                isActive && <Modal isActive={isActive} setActive={setActive}>
+                isModalOpen && <Modal isActive={isModalOpen} setActive={closeModal}>
                     <OrderDetails/>
                 </Modal>
             }

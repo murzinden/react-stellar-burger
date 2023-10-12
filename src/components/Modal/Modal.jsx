@@ -35,7 +35,7 @@ const Modal = ({children, setActive}) => {
         <>
             <div className={cn(s.modal)}>
                 <div className={cn(s.modal__closeIcon)}>
-                    <CloseIcon type="primary" onClick={() => {closePopup()}}/>
+                    <CloseIcon type="primary" onClick={closePopup}/>
                 </div>
                 {children}
             </div>

@@ -32,7 +32,7 @@ const BurgerConstructorElement = ({item, index}) => {
             const hoverBoundingRect = ref.current?.getBoundingClientRect()
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
             const clientOffSet = monitor.getClientOffset()
-            const hoverClientY = clientOffSet.y = hoverBoundingRect.top
+            const hoverClientY = clientOffSet.y - hoverBoundingRect.top
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return
             }

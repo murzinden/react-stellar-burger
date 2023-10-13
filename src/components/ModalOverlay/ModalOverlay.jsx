@@ -2,21 +2,18 @@ import React from 'react';
 import s from './ModalOverlay.module.css'
 import PropTypes from "prop-types";
 
-const ModalOverlay = ({onClose}) => {
-    const handleOverlayClick = (e) => {
-      if (e.target === e.currentTarget) {
-          onClose()
-      }
-    }
+const ModalOverlay = ({closePopup}) => {
     
     return (
-        <div onClick={handleOverlayClick} className={s.overlay}>
-            
+        <div
+            onClick={closePopup}
+            className={s.overlay}
+        >
         </div>
     );
 };
 
 ModalOverlay.propTypes = {
-    onClose: PropTypes.func
+    closePopup: PropTypes.func
 }
 export default ModalOverlay;

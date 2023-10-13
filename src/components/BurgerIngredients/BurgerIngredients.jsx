@@ -3,45 +3,56 @@ import cn from "classnames"
 import s from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsCategory from "../BurgerIngredientsCategory/BurgerIngredientsCategory";
-import {burgerPropType} from "../../utils/prop-types";
+import PropTypes from "prop-types";
 
-const BurgerIngredients = ({burgerData}) => {
-    const [current, setCurrent] = useState('Булки')
+const BurgerIngredients = ({ingredientDetailsHandler}) => {
+    const [currentTab, setCurrentTab] = useState('buns')
+    const onSwitchTab = (tab) => {
+        setCurrentTab(tab)
+        const element = document.getElementById(tab)
+        if (element) {
+            element.scrollIntoView({behavior: 'smooth'})
+        }
+    }
+
+
     return (
         <section className={cn(s.cards)}>
             <div className={cn(s.tab__container, 'mb-10')}>
                 <Tab
-                    active={current === 'Булки'}
-                    value={'Булки'}
-                    onClick={setCurrent}
+                    active={currentTab === 'buns'}
+                    value={'buns'}
+                    onClick={onSwitchTab}
                 >
                     Булки
                 </Tab>
                 <Tab
-                    active={current === 'Соусы'}
-                    value={'Соусы'}
-                    onClick={setCurrent}
+                    active={currentTab === 'sauces'}
+                    value={'sauces'}
+                    onClick={onSwitchTab}
                 >
                     Соусы
                 </Tab>
                 <Tab
-                    active={current === 'Начинки'}
-                    value={'Начинки'}
-                    onClick={setCurrent}
+                    active={currentTab === 'mains'}
+                    value={'mains'}
+                    onClick={onSwitchTab}
                 >
                     Начинки
                 </Tab>
             </div>
             <div className={cn(s.scroll__container)}>
-                {current === 'Булки' && <BurgerIngredientsCategory burgerData={burgerData.filter(el => el.type === 'bun')} title="Булки" />}
-                {current === 'Соусы' && <BurgerIngredientsCategory burgerData={burgerData.filter(el => el.type === 'sauce')} title="Соусы" />}
-                {current === 'Начинки' && <BurgerIngredientsCategory burgerData={burgerData.filter(el => el.type === 'main')} title="Начинки" />}
+                <BurgerIngredientsCategory
+                    setCurrentTab={setCurrentTab}
+                    ingredientDetailsHandler={ingredientDetailsHandler}
+                />
             </div>
         </section>
     );
 };
 
 BurgerIngredients.propTypes = {
-    burgerData: burgerPropType.isRequired
+    ingredientDetailsHandler: PropTypes.func
 }
+
 export default BurgerIngredients;

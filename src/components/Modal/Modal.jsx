@@ -1,46 +1,51 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
+import PropTypes from "prop-types";
 import cn from "classnames"
 import s from './Modal.module.css'
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components"
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import {createPortal} from "react-dom";
-import PropTypes from "prop-types";
 
 
-const Modal = ({children, onClose}) => {
+const modalRoot = document.querySelector("#modal-root");
+const Modal = ({children, setActive}) => {
 
-    const modalRoot = document.querySelector("#modal-root");
+    const element = useMemo(() => document.createElement('div'), [])
 
+    const closePopup = () => {
+        setActive(false)
+    }
 
     useEffect(() => {
-        const closeModal = (e) => {
-            if (e.key === "Escape") {
-                onClose();
+        const closePopupByEscape = (e) => {
+            if(e.key === 'Escape') {
+                closePopup()
             }
-        };
-        document.addEventListener("keydown", closeModal);
-
+        }
+        modalRoot.appendChild(element)
+        document.addEventListener('keydown', closePopupByEscape)
         return () => {
-            document.removeEventListener("keydown", closeModal);
-        };
-    }, [onClose]);
+            modalRoot.removeChild(element)
+            document.removeEventListener('keydown', closePopupByEscape)
+        }
 
+    }, [])
 
     return createPortal(
         <>
             <div className={cn(s.modal)}>
                 <div className={cn(s.modal__closeIcon)}>
-                    <CloseIcon type="primary" onClick={onClose}/>
+                    <CloseIcon type="primary" onClick={closePopup}/>
                 </div>
                 {children}
             </div>
-            <ModalOverlay onClose={onClose}/>
-        </> , modalRoot
+            <ModalOverlay closePopup={closePopup}/>
+        </> , element
     );
 };
 
 Modal.propTypes = {
     children: PropTypes.element,
-    onClose: PropTypes.func
+    setActive: PropTypes.func
 }
 export default Modal;

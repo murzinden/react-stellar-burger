@@ -3,9 +3,9 @@ import cn from "classnames"
 import s from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsCategory from "../BurgerIngredientsCategory/BurgerIngredientsCategory";
-import PropTypes from "prop-types";
 
-const BurgerIngredients = ({ingredientDetailsHandler}) => {
+
+const BurgerIngredients = () => {
     const [currentTab, setCurrentTab] = useState('buns')
     const onSwitchTab = (tab) => {
         setCurrentTab(tab)
@@ -14,7 +14,6 @@ const BurgerIngredients = ({ingredientDetailsHandler}) => {
             element.scrollIntoView({behavior: 'smooth'})
         }
     }
-
 
     return (
         <section className={cn(s.cards)}>
@@ -44,15 +43,10 @@ const BurgerIngredients = ({ingredientDetailsHandler}) => {
             <div className={cn(s.scroll__container)}>
                 <BurgerIngredientsCategory
                     setCurrentTab={setCurrentTab}
-                    ingredientDetailsHandler={ingredientDetailsHandler}
                 />
             </div>
         </section>
     );
 };
-
-BurgerIngredients.propTypes = {
-    ingredientDetailsHandler: PropTypes.func
-}
 
 export default BurgerIngredients;

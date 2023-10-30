@@ -7,9 +7,8 @@ import {useSelector} from "react-redux";
 import {useInView} from "react-intersection-observer";
 
 
-
-const BurgerIngredientsCategory = ({setCurrentTab, ingredientDetailsHandler}) => {
-    const {data} = useSelector(state => state.ingredients)
+const BurgerIngredientsCategory = ({setCurrentTab}) => {
+    const {data, isLoading} = useSelector(state => state.ingredientsSlice)
     const buns = data.filter(el => el.type === 'bun')
     const mains = data.filter(el => el.type === 'main')
     const sauces = data.filter(el => el.type === 'sauce')
@@ -33,28 +32,27 @@ const BurgerIngredientsCategory = ({setCurrentTab, ingredientDetailsHandler}) =>
             setCurrentTab('mains')
         }
     }, [inViewBuns, inViewSauces, inViewMains]);
+    if (isLoading)
+        return <h1>Loading...</h1>
 
     return (
         <>
             <section id='buns' ref={bunsRef}>
                 <h2 className={"text text_type_main-medium mb-6"}>Булки</h2>
                 <div className={cn(s.cards__gallery, 'pl-4 pr-4')}>
-                    {buns.map((item) => <BurgerIngredient ingredientDetailsHandler={ingredientDetailsHandler}
-                                                          key={item._id} item={item}/>)}
+                    {buns.map((item) => <BurgerIngredient key={item._id} item={item} id={item._id}/>)}
                 </div>
             </section>
             <section id='sauces' ref={saucesRef}>
                 <h2 className={"text text_type_main-medium mb-6"}>Соусы</h2>
                 <div className={cn(s.cards__gallery, 'pl-4 pr-4')}>
-                    {sauces.map((item) => <BurgerIngredient ingredientDetailsHandler={ingredientDetailsHandler}
-                                                            key={item._id} item={item}/>)}
+                    {sauces.map((item) => <BurgerIngredient key={item._id} item={item} id={item._id}/>)}
                 </div>
             </section>
             <section id='mains' ref={mainsRef}>
                 <h2 className={"text text_type_main-medium mb-6"}>Начинки</h2>
                 <div className={cn(s.cards__gallery, 'pl-4 pr-4')}>
-                    {mains.map((item) => <BurgerIngredient ingredientDetailsHandler={ingredientDetailsHandler}
-                                                           key={item._id} item={item}/>)}
+                    {mains.map((item) => <BurgerIngredient key={item._id} item={item} id={item._id}/>)}
                 </div>
             </section>
         </>
@@ -62,6 +60,5 @@ const BurgerIngredientsCategory = ({setCurrentTab, ingredientDetailsHandler}) =>
 };
 BurgerIngredientsCategory.propTypes = {
     setCurrentTab: PropTypes.func,
-    ingredientDetailsHandler: PropTypes.func
 }
 export default BurgerIngredientsCategory;

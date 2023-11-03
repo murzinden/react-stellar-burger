@@ -9,6 +9,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    text-decoration: none;
+    color: #F2F2F3;
+    text-align: center;
 
 }
 .card__price {
@@ -20,4 +23,10 @@
 }
 .card__description {
     text-align: center;
+}
+.isActive {
+    display: block;
+}
+.isNotActive {
+    display: none;
 }

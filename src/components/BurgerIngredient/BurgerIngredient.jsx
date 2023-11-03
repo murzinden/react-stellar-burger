@@ -4,13 +4,17 @@ import s from './BurgerIngredient.module.css'
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientPropType} from "../../utils/prop-types";
 import {useDrag} from "react-dnd";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import PropTypes from "prop-types";
+import {Link, useLocation} from "react-router-dom";
+import {showIngredientInfo} from "../../services/slice/ingredientsSlice";
 
 
 
-const BurgerIngredient = ({item: ingredient, ingredientDetailsHandler}) => {
-    const {items, bun} = useSelector(state => state.burgerConstructor)
+const BurgerIngredient = ({item: ingredient, id}) => {
+    const {items, bun} = useSelector(state => state.constructorSlice)
+    const dispatch = useDispatch()
+    const location = useLocation()
 
     const count = useMemo(() => {
         let res = 0
@@ -31,12 +35,19 @@ const BurgerIngredient = ({item: ingredient, ingredientDetailsHandler}) => {
         })
     })
 
+    const ingredientDetailsHandler = ingredient  => {
+        dispatch(showIngredientInfo(ingredient))
+    }
 
     return (
-        <div
+        <Link
+            to={`/ingredients/${id}`}
+            state={{background: location}}
+            replace
             ref={dragRef}
             onClick={() => ingredientDetailsHandler(ingredient)}
-            className={cn(s.card, 'pl-4 pr-4')} style={{opacity: isDrag ? .2 : 1}}
+            className={cn(s.card, 'pl-4 pr-4')}
+            style={{opacity: isDrag ? .2 : 1}}
         >
             <img className={cn(s.cards__img)} src={ingredient.image} alt={ingredient.name}/>
             <div className={cn(s.card__price, 'text text_type_digits-default')}>
@@ -47,11 +58,11 @@ const BurgerIngredient = ({item: ingredient, ingredientDetailsHandler}) => {
                 {ingredient.name}
             </p>
             {count > 0 && <Counter count={count} size="default" extraClass="m-1"/>}
-        </div>
+        </Link>
     );
 };
 BurgerIngredient.propTypes = {
-    item: ingredientPropType,
-    ingredientDetailsHandler: PropTypes.func
+    ingredient: ingredientPropType,
+    id: PropTypes.string,
 }
 export default BurgerIngredient;

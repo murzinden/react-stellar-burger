@@ -8,13 +8,10 @@ import {createPortal} from "react-dom";
 
 
 const modalRoot = document.querySelector("#modal-root");
-const Modal = ({children, setActive}) => {
+const Modal = ({children, closePopup}) => {
 
     const element = useMemo(() => document.createElement('div'), [])
 
-    const closePopup = () => {
-        setActive(false)
-    }
 
     useEffect(() => {
         const closePopupByEscape = (e) => {
@@ -46,6 +43,6 @@ const Modal = ({children, setActive}) => {
 
 Modal.propTypes = {
     children: PropTypes.element,
-    setActive: PropTypes.func
+    closePopup: PropTypes.func
 }
 export default Modal;

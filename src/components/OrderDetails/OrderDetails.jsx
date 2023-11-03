@@ -3,17 +3,17 @@ import cn from "classnames"
 import s from '../Modal/Modal.module.css'
 import orderImagesDone from '../../images/done.png'
 import {useDispatch, useSelector} from "react-redux";
-import {getOrderResponse, resetOrderNumber} from "../../services/actions/orderAction";
+import {orderNumberRequest, resetOrderNumber} from "../../services/slice/orderSlice";
 
 
 const OrderDetails = () => {
     const dispatch = useDispatch()
-    const {items, bun} = useSelector(state => state.burgerConstructor)
-    const {orderNumber} = useSelector(state => state.orderDetails)
+    const {items, bun} = useSelector(state => state.constructorSlice)
+    const {orderNumber, isLoading} = useSelector(state => state.orderSlice)
     const idArray = items?.map(el => el._id)
     idArray.push(bun?._id)
     useEffect(() => {
-        dispatch(getOrderResponse(idArray))
+        dispatch(orderNumberRequest(idArray))
         return () => dispatch(resetOrderNumber())
     }, [])
 
@@ -25,7 +25,7 @@ const OrderDetails = () => {
             </div>
             <div className={cn(s.modal__info)}>
                 <p className="text text_type_digits-large mb-8">
-                    {orderNumber === 0 ? 'Loading' : orderNumber}
+                    {isLoading ? 'Loading' : orderNumber}
                 </p>
                 <p className="text text_type_main-medium">идентификатор заказа</p>
                 <img className={'mb-15 mt-15'} src={orderImagesDone} alt="подтверждение заказа"/>

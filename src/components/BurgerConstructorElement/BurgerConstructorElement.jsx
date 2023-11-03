@@ -1,7 +1,7 @@
-import React, {useRef} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
-import {constructorSort, deleteItem} from "../../services/actions/constructorAction";
+import {constructorSort, deleteItem} from "../../services/slice/constructorSlice";
 import cn from "classnames";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import s from '../BurgerConstructor/BurgerConstructor.module.css'
@@ -12,6 +12,10 @@ const BurgerConstructorElement = ({item, index}) => {
     const dispatch = useDispatch()
 
     const ref = useRef(null)
+
+    const changeTargetPlace = useCallback((dragIndex, hoverIndex) => {
+        dispatch(constructorSort({dragIndex, hoverIndex}))
+    }, [dispatch])
 
     const [{handlerId}, drop] = useDrop({
         accept: 'SORT_INGREDIENT',
@@ -39,7 +43,7 @@ const BurgerConstructorElement = ({item, index}) => {
             if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
                 return
             }
-            dispatch(constructorSort(dragIndex, hoverIndex))
+            changeTargetPlace(dragIndex, hoverIndex)
             item.index = hoverIndex
         }
     })

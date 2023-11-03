@@ -18,7 +18,7 @@ import {useModal} from "../../hooks/useModal";
 function App() {
 
     const dispatch = useDispatch()
-    const {isModalOpen, openModal, closeModal} = useModal();
+    const {isModalOpen, openModal, closeModal} = useModal()
 
     useEffect(() => {
         dispatch(getAllItems())

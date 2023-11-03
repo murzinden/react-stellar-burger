@@ -2,18 +2,20 @@ import React, {useMemo} from 'react';
 import cn from "classnames"
 import s from './BurgerIngredient.module.css'
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ingredientPropType} from "../../utils/prop-types";
+import {IIngredientType} from "../../utils/types";
 import {useDrag} from "react-dnd";
-import {useDispatch, useSelector} from "react-redux";
-import PropTypes from "prop-types";
 import {Link, useLocation} from "react-router-dom";
 import {showIngredientInfo} from "../../services/slice/ingredientsSlice";
+import {useAppSelector, useAppDispatch} from "../../services/hooks";
 
+interface IProps {
+    item: IIngredientType
+    id: string
+}
 
-
-const BurgerIngredient = ({item: ingredient, id}) => {
-    const {items, bun} = useSelector(state => state.constructorSlice)
-    const dispatch = useDispatch()
+const BurgerIngredient = ({item: ingredient, id}: IProps) => {
+    const {items, bun} = useAppSelector(state => state.constructorSlice)
+    const dispatch = useAppDispatch()
     const location = useLocation()
 
     const count = useMemo(() => {
@@ -35,7 +37,7 @@ const BurgerIngredient = ({item: ingredient, id}) => {
         })
     })
 
-    const ingredientDetailsHandler = ingredient  => {
+    const ingredientDetailsHandler = (ingredient: IIngredientType)  => {
         dispatch(showIngredientInfo(ingredient))
     }
 
@@ -61,8 +63,4 @@ const BurgerIngredient = ({item: ingredient, id}) => {
         </Link>
     );
 };
-BurgerIngredient.propTypes = {
-    ingredient: ingredientPropType,
-    id: PropTypes.string,
-}
 export default BurgerIngredient;

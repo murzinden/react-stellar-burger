@@ -2,12 +2,20 @@ import {BurgerIcon, Logo, ListIcon, ProfileIcon} from "@ya.praktikum/react-devel
 import s from './AppHeader.module.css'
 import cn from 'classnames'
 import {NavLink, useMatch} from "react-router-dom";
+import {FC} from "react";
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
     const isConstructor = useMatch('/')
     const isLine = useMatch('/line')
     const isProfile = useMatch('/profile')
-    const setClassName = ({isActive}) => {
+
+    interface INavLink {
+        isActive: boolean
+        isPending?: boolean
+        isTransitioning?: boolean
+    }
+
+    const setClassName = ({isActive}: INavLink) => {
         return cn(s.link, {[s.link_active]: isActive}, 'text text_type_main-default pt-4 pr-5 pb-4')
     }
 

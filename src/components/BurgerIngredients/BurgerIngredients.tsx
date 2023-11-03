@@ -7,7 +7,7 @@ import BurgerIngredientsCategory from "../BurgerIngredientsCategory/BurgerIngred
 
 const BurgerIngredients = () => {
     const [currentTab, setCurrentTab] = useState('buns')
-    const onSwitchTab = (tab) => {
+    const onSwitchTab = (tab: string) => {
         setCurrentTab(tab)
         const element = document.getElementById(tab)
         if (element) {

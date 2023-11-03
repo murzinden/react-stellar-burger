@@ -3,18 +3,18 @@ import s from './Pages.module.css'
 import cn from "classnames";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {registerUserRequest} from "../services/slice/userSlice";
-
+import {useAppDispatch, useAppSelector} from "../services/hooks";
+import {IInputRegisterUpdate} from "../services/types";
 
 
 const Register = () => {
-    const dispatch = useDispatch()
-    const userData = useSelector(state => state.userSlice)
-    const [user, setUser] = useState({})
+    const dispatch = useAppDispatch()
+    const userData = useAppSelector(state => state.userSlice)
+    const [user, setUser] = useState<IInputRegisterUpdate>({name: '', email: '', password: ''})
     const navigate = useNavigate()
 
-    const onChange = (e) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target
         setUser({
             ...user,
@@ -22,7 +22,7 @@ const Register = () => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const {name, password, email} = user
         if (!name || !password || !email)
@@ -31,7 +31,7 @@ const Register = () => {
     }
 
     useEffect(() => {
-        if (userData.success) {
+        if (userData.isUserLoaded) {
             navigate('/')
         }
     }, [userData]);
@@ -83,7 +83,7 @@ const Register = () => {
                         type="secondary"
                         size="medium"
                         extraClass="pl-2"
-                        style={{paddingTop: 0, paddingBottom: 0, paddingRight: 0 }}
+                        style={{paddingTop: 0, paddingBottom: 0, paddingRight: 0}}
                     >
                         Войти
                     </Button>

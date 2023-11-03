@@ -4,15 +4,16 @@ import cn from "classnames";
 import s from "./Pages.module.css";
 import {Link, useNavigate} from "react-router-dom";
 import {resetPasswordRequest} from "../services/slice/userSlice";
-import {useDispatch, useSelector} from "react-redux";
+import {IChangePasswordRequest} from "../services/types";
+import {useAppDispatch, useAppSelector} from "../services/hooks";
 
 const ResetPassword = () => {
-    const [passwordReset, setPasswordReset] = useState({})
-    const isPasswordChanged = useSelector(state => state.userSlice.passwordReset)
+    const [passwordReset, setPasswordReset] = useState<IChangePasswordRequest>({password: '', token: ''})
+    const isPasswordChanged = useAppSelector(state => state.userSlice.passwordReset)
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const onChange = (e) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target
         setPasswordReset({
             ...passwordReset,
@@ -20,7 +21,7 @@ const ResetPassword = () => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         dispatch(resetPasswordRequest(passwordReset))
     }

@@ -1,19 +1,23 @@
 import React, {useCallback, useRef} from 'react';
-import {useDispatch} from "react-redux";
-import {useDrag, useDrop} from "react-dnd";
+import {useDrag, useDrop, XYCoord} from "react-dnd";
 import {constructorSort, deleteItem} from "../../services/slice/constructorSlice";
 import cn from "classnames";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import s from '../BurgerConstructor/BurgerConstructor.module.css'
-import PropTypes from "prop-types";
-import {ingredientPropType} from "../../utils/prop-types";
+import {IIngredientType} from "../../utils/types";
+import {useAppDispatch} from "../../services/hooks";
 
-const BurgerConstructorElement = ({item, index}) => {
-    const dispatch = useDispatch()
+interface IProps {
+    item: IIngredientType
+    index: number
+}
 
-    const ref = useRef(null)
+const BurgerConstructorElement = ({item, index}: IProps) => {
+    const dispatch = useAppDispatch()
 
-    const changeTargetPlace = useCallback((dragIndex, hoverIndex) => {
+    const ref = useRef<HTMLLIElement>(null)
+
+    const changeTargetPlace = useCallback((dragIndex: number, hoverIndex: number) => {
         dispatch(constructorSort({dragIndex, hoverIndex}))
     }, [dispatch])
 
@@ -24,7 +28,7 @@ const BurgerConstructorElement = ({item, index}) => {
                 handlerId: monitor.getHandlerId(),
             }
         },
-        hover(item, monitor) {
+        hover(item: IProps, monitor) {
             if (!ref.current) {
                 return
             }
@@ -36,7 +40,7 @@ const BurgerConstructorElement = ({item, index}) => {
             const hoverBoundingRect = ref.current?.getBoundingClientRect()
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
             const clientOffSet = monitor.getClientOffset()
-            const hoverClientY = clientOffSet.y - hoverBoundingRect.top
+            const hoverClientY = (clientOffSet as XYCoord).y - hoverBoundingRect.top
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return
             }
@@ -74,8 +78,4 @@ const BurgerConstructorElement = ({item, index}) => {
     );
 };
 
-BurgerConstructorElement.propTypes = {
-    item: ingredientPropType,
-    index: PropTypes.number
-}
 export default BurgerConstructorElement;

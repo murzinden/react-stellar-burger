@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {request} from "../../utils/api";
 import {clearConstructor} from "./constructorSlice";
+import {IOrderResponse} from "../types";
 
 const initialState = {
     orderNumber: 0,
@@ -9,7 +10,7 @@ const initialState = {
 
 const sliceName = 'order'
 
-export const orderNumberRequest = createAsyncThunk(
+export const orderNumberRequest = createAsyncThunk<IOrderResponse, Array<string>>(
     `${sliceName}/orderNumberRequest`,
     async (array, {fulfillWithValue, rejectWithValue, dispatch}) => {
         try {
@@ -24,7 +25,7 @@ export const orderNumberRequest = createAsyncThunk(
             dispatch(clearConstructor())
             return fulfillWithValue(data)
         } catch (error) {
-            rejectWithValue(error)
+           return rejectWithValue(error)
         }
     }
 )

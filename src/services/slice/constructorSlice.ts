@@ -1,7 +1,12 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {v4 as uuid4} from "uuid";
+import {v4 as uuidv4} from "uuid";
+import {IIngredientType} from "../../utils/types";
+interface IState {
+    items: Array<IIngredientType>
+    bun: IIngredientType | null
+}
 
-const initialState = {
+const initialState: IState = {
     items: [],
     bun: null
 }
@@ -13,7 +18,7 @@ const constructorSlice = createSlice({
     reducers: {
         addItem: (state, action) => {
             const item = {...action.payload}
-            const uid = uuid4()
+            const uid: string = uuidv4()
             item.uuid = uid
             if (action.payload.type === 'bun') {
                 state.bun = item

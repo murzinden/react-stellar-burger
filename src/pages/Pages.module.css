@@ -11,6 +11,7 @@
 }
 .profile_wrapper {
     display: flex;
+
     justify-content: flex-start;
     max-width: 1240px;
     margin: 120px auto 0;

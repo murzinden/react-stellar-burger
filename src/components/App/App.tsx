@@ -16,6 +16,8 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import NotFound from "../../pages/NotFound";
 import {useAppDispatch} from "../../services/hooks";
 import {resetOrderNumber} from "../../services/slice/orderSlice";
+import OrderDetailsInfo from "../OrderDetailsInfo/OrderDetailsInfo";
+import Order from "../../pages/Order";
 
 
 function App() {
@@ -35,10 +37,10 @@ function App() {
     const backgroundLocation = location.state?.background
 
     const closePopup = (path: string) => {
-        if(path.includes('ingredients')) {
+        if (path.includes('ingredients')) {
             dispatch(clearIngredientInfo());
         }
-        if(path.includes('order')) {
+        if (path.includes('order')) {
             dispatch(resetOrderNumber());
         }
         navigate(backgroundLocation.pathname || '/', {replace: true});
@@ -52,6 +54,10 @@ function App() {
                     <Route
                         index
                         element={<Home/>}
+                    />
+                    <Route
+                        path="feed"
+                        element={<Order/>}
                     />
                     <Route
                         path="login"
@@ -84,8 +90,10 @@ function App() {
                         </ProtectedRoute>}
                     />
                     <Route
-                        path="order"
-                        element={<OrderDetails/>}
+                        path="profile/orders"
+                        element={<ProtectedRoute>
+                                <Profile/>
+                            </ProtectedRoute>}
                     />
                     <Route
                         path="*"
@@ -99,10 +107,16 @@ function App() {
             </Routes>
             {backgroundLocation && <Routes>
                 <Route path='/ingredients/:id' element={<Modal closePopup={closePopup}>
-                    <IngredientDetails />
+                    <IngredientDetails/>
                 </Modal>}/>
                 <Route path='/order' element={<Modal closePopup={closePopup}>
-                    <OrderDetails />
+                    <OrderDetails/>
+                </Modal>}/>
+                <Route path='/feed/:id' element={<Modal closePopup={closePopup}>
+                    <OrderDetailsInfo/>
+                </Modal>}/>
+                <Route path='/profile/orders/:id' element={<Modal closePopup={closePopup}>
+                    <OrderDetailsInfo/>
                 </Modal>}/>
             </Routes>}
         </>

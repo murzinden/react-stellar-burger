@@ -60,8 +60,7 @@ export const currentUserRequest = createAsyncThunk(
 
 export const registerUserRequest = createAsyncThunk<IRegLogResponse, IInputRegisterUpdate>(
     `${sliceName}/registerUserRequest`,
-    async (dataRegister, {fulfillWithValue, rejectWithValue}) => {
-        try {
+    async (dataRegister, {fulfillWithValue}) => {
             const data = await request('auth/register', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json', "Accept": 'application/json'},
@@ -70,9 +69,6 @@ export const registerUserRequest = createAsyncThunk<IRegLogResponse, IInputRegis
             setAccessToken(data.accessToken)
             setRefreshToken(data.refreshToken)
             return fulfillWithValue(data)
-        } catch (error) {
-            return rejectWithValue(error)
-        }
     }
 )
 

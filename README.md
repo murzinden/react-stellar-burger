@@ -1,3 +1,3 @@
 # Каноническая работа проекта Stellar Burger 
-# Этап Четвертый. "Проект. Stellar Burgers. Типизация TypeScript"
+# Этап Пятый. "Проект. Stellar Burgers. Создание ленты заказов"
 

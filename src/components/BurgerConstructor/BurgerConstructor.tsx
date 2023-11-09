@@ -7,6 +7,7 @@ import {useDrop} from "react-dnd";
 import {addItem} from "../../services/slice/constructorSlice";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../services/hooks";
+import {IIngredientType} from "../../utils/types";
 
 
 const BurgerConstructor = () => {
@@ -29,7 +30,7 @@ const BurgerConstructor = () => {
 
     const [{isOver, canDrop, itemDrag}, dropTarget] = useDrop({
         accept: 'ingredient',
-        drop: (item) => (
+        drop: (item: IIngredientType) => (
             dispatch(addItem(item))
         ),
         collect: (monitor) => ({

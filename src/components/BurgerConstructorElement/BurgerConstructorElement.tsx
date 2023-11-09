@@ -13,8 +13,8 @@ interface IProps {
 }
 
 const BurgerConstructorElement = ({item, index}: IProps) => {
-    const dispatch = useAppDispatch()
 
+    const dispatch = useAppDispatch()
     const ref = useRef<HTMLLIElement>(null)
 
     const changeTargetPlace = useCallback((dragIndex: number, hoverIndex: number) => {

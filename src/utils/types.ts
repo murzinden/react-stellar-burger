@@ -1,4 +1,3 @@
-
 export interface IIngredientType {
     calories: number,
     carbohydrates: number,

@@ -39,3 +39,8 @@
     display: flex;
     justify-content: flex-end;
 }
+.link_active {
+    color: var(--text-primary-color);
+    text-decoration: none;
+}
+

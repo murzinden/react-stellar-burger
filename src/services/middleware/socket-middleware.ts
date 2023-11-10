@@ -21,8 +21,7 @@ export const socketMiddleware = (wsActions: TwsActionTypes): Middleware<{}, Root
                 wsError
             } = wsActions
             if (wsConnect.match(action)) {
-                // @ts-ignore
-                wsUrl = action.payload
+                wsUrl = action.payload ?? ''
                 socket = new WebSocket(wsUrl)
                 dispatch(wsConnecting())
             }
@@ -38,7 +37,7 @@ export const socketMiddleware = (wsActions: TwsActionTypes): Middleware<{}, Root
             }
             if (socket && wsDisconnect.match(action)) {
                 socket.close(normalSocketClose, 'Socket is closed')
-                dispatch(wsClose)
+                dispatch(wsClose())
             }
             next(action)
         }

@@ -38,13 +38,16 @@ function App() {
 
     const closePopup = (path: string) => {
         if (path.includes('ingredients')) {
-            dispatch(clearIngredientInfo());
+            dispatch(clearIngredientInfo())
         }
         if (path.includes('order')) {
-            dispatch(resetOrderNumber());
+            dispatch(resetOrderNumber())
         }
-        navigate(backgroundLocation.pathname || '/', {replace: true});
-    }
+        if (path.includes('feed')) {
+            localStorage.removeItem('orderInfo')
+        }
+        navigate(backgroundLocation.pathname || "/", {replace: true})
+    };
 
 
     return (
@@ -92,8 +95,8 @@ function App() {
                     <Route
                         path="profile/orders"
                         element={<ProtectedRoute>
-                                <Profile/>
-                            </ProtectedRoute>}
+                            <Profile/>
+                        </ProtectedRoute>}
                     />
                     <Route
                         path="*"
@@ -105,20 +108,21 @@ function App() {
                     />
                 </Route>
             </Routes>
-            {backgroundLocation && <Routes>
-                <Route path='/ingredients/:id' element={<Modal closePopup={closePopup}>
-                    <IngredientDetails/>
-                </Modal>}/>
-                <Route path='/order' element={<Modal closePopup={closePopup}>
-                    <OrderDetails/>
-                </Modal>}/>
-                <Route path='/feed/:id' element={<Modal closePopup={closePopup}>
-                    <OrderDetailsInfo/>
-                </Modal>}/>
-                <Route path='/profile/orders/:id' element={<Modal closePopup={closePopup}>
-                    <OrderDetailsInfo/>
-                </Modal>}/>
-            </Routes>}
+            {backgroundLocation &&
+                <Routes>
+                    <Route path='/ingredients/:id' element={<Modal closePopup={closePopup}>
+                        <IngredientDetails/>
+                    </Modal>}/>
+                    <Route path='/order' element={<Modal closePopup={closePopup}>
+                        <OrderDetails/>
+                    </Modal>}/>
+                    <Route path='/feed/:id' element={<Modal closePopup={closePopup}>
+                        <OrderDetailsInfo/>
+                    </Modal>}/>
+                    <Route path='/profile/orders/:id' element={<Modal closePopup={closePopup}>
+                        <OrderDetailsInfo/>
+                    </Modal>}/>
+                </Routes>}
         </>
     );
 }

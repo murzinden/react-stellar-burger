@@ -13,7 +13,7 @@ const root = createRoot(container);
 root.render(
   <Provider store={store}>
     <BrowserRouter basename="/react-stellar-burger">
-      <App />
+      <App/>
     </BrowserRouter>
   </Provider>
 );

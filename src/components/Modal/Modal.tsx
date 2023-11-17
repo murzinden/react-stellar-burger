@@ -1,22 +1,26 @@
-import React, {useEffect, useMemo} from 'react';
-import PropTypes from "prop-types";
+import React, {FC, useEffect, useMemo} from 'react';
 import cn from "classnames"
 import s from './Modal.module.css'
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components"
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import {createPortal} from "react-dom";
+import {useLocation} from "react-router-dom";
 
+const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
-const modalRoot = document.querySelector("#modal-root");
-const Modal = ({children, closePopup}) => {
+interface IProps {
+    children: React.ReactNode
+    closePopup: (path: string) => void
+}
+const Modal: FC<IProps> = ({children, closePopup}) => {
 
     const element = useMemo(() => document.createElement('div'), [])
-
+    const location = useLocation()
 
     useEffect(() => {
-        const closePopupByEscape = (e) => {
+        const closePopupByEscape = (e: KeyboardEvent) => {
             if(e.key === 'Escape') {
-                closePopup()
+                closePopup(location.pathname)
             }
         }
         modalRoot.appendChild(element)
@@ -32,7 +36,7 @@ const Modal = ({children, closePopup}) => {
         <>
             <div className={cn(s.modal)}>
                 <div className={cn(s.modal__closeIcon)}>
-                    <CloseIcon type="primary" onClick={closePopup}/>
+                    <CloseIcon type="primary" onClick={() => closePopup(location.pathname)}/>
                 </div>
                 {children}
             </div>
@@ -41,8 +45,4 @@ const Modal = ({children, closePopup}) => {
     );
 };
 
-Modal.propTypes = {
-    children: PropTypes.element,
-    closePopup: PropTypes.func
-}
 export default Modal;

@@ -2,21 +2,23 @@ import React, {useEffect} from 'react';
 import cn from "classnames"
 import s from '../Modal/Modal.module.css'
 import orderImagesDone from '../../images/done.png'
-import {useDispatch, useSelector} from "react-redux";
-import {orderNumberRequest, resetOrderNumber} from "../../services/slice/orderSlice";
+import {orderNumberRequest} from "../../services/slice/orderSlice";
+import {useAppDispatch, useAppSelector} from "../../services/hooks";
 
 
 const OrderDetails = () => {
-    const dispatch = useDispatch()
-    const {items, bun} = useSelector(state => state.constructorSlice)
-    const {orderNumber, isLoading} = useSelector(state => state.orderSlice)
+    const dispatch = useAppDispatch()
+    const {items, bun} = useAppSelector(state => state.constructorSlice)
+    const {orderNumber, isLoading} = useAppSelector(state => state.orderSlice)
     const idArray = items?.map(el => el._id)
-    idArray.push(bun?._id)
+
+    if(bun !== null) {
+        idArray.push(bun._id)
+    }
+
     useEffect(() => {
         dispatch(orderNumberRequest(idArray))
-        return () => dispatch(resetOrderNumber())
     }, [])
-
 
     return (
         <div className='pt-15  pb-30 pl-10 pr-10' onClick={e => e.stopPropagation()}>

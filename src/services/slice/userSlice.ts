@@ -8,11 +8,17 @@ import {
     setRefreshToken
 } from "../../utils/token";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-
+import {
+    IUserResponse,
+    IInputRegisterUpdate,
+    ILogin,
+    IRegLogResponse,
+    IResponse, IChangePasswordRequest, IUserState
+} from "../types";
 
 const token = getRefreshToken()
 
-const initialState = {
+const initialState: IUserState = {
     isPending: false,
     isAuthChecked: false,
     isUserLoaded: false,
@@ -35,7 +41,7 @@ export const currentUserRequest = createAsyncThunk(
             } else {
                 return rejectWithValue('Something went wrong...')
             }
-        } catch (error) {
+        } catch (error: any) {
             if (error.message === 'jwt expired') {
                 const res = await refreshToken()
                 if (res.success) {
@@ -52,7 +58,7 @@ export const currentUserRequest = createAsyncThunk(
     }
 )
 
-export const registerUserRequest = createAsyncThunk(
+export const registerUserRequest = createAsyncThunk<IRegLogResponse, IInputRegisterUpdate>(
     `${sliceName}/registerUserRequest`,
     async (dataRegister, {fulfillWithValue, rejectWithValue}) => {
         try {
@@ -70,7 +76,7 @@ export const registerUserRequest = createAsyncThunk(
     }
 )
 
-export const authUserRequest = createAsyncThunk(
+export const authUserRequest = createAsyncThunk<IRegLogResponse, ILogin>(
     `${sliceName}/authUserRequest`,
     async (dataLogin, {fulfillWithValue, rejectWithValue}) => {
         try {
@@ -88,7 +94,7 @@ export const authUserRequest = createAsyncThunk(
     }
 )
 
-export const updateUserRequest = createAsyncThunk(
+export const updateUserRequest = createAsyncThunk<IUserResponse, IInputRegisterUpdate>(
     `${sliceName}/updateUserRequest`,
     async (dataUpdate, {fulfillWithValue, rejectWithValue}) => {
         try {
@@ -121,12 +127,12 @@ export const logoutUserRequest = createAsyncThunk(
             removeRefreshToken()
             return fulfillWithValue(data)
         } catch (error) {
-            rejectWithValue(error)
+           return  rejectWithValue(error)
         }
     }
 )
 
-export const forgotPasswordRequest = createAsyncThunk(
+export const forgotPasswordRequest = createAsyncThunk<IResponse, string>(
     `${sliceName}/forgotPasswordRequest`,
     async (email, {fulfillWithValue, rejectWithValue}) => {
         try {
@@ -140,12 +146,12 @@ export const forgotPasswordRequest = createAsyncThunk(
             localStorage.setItem('visitedForgotPassword', 'true')
             return fulfillWithValue(res)
         } catch (error) {
-            rejectWithValue(error)
+          return rejectWithValue(error)
         }
     }
 )
 
-export const resetPasswordRequest = createAsyncThunk(
+export const resetPasswordRequest = createAsyncThunk<IResponse, IChangePasswordRequest>(
     `${sliceName}/resetPasswordRequest`,
     async (dataReset, {fulfillWithValue, rejectWithValue}) => {
         try {

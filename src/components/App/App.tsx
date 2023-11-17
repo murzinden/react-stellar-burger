@@ -1,9 +1,8 @@
 import {useEffect} from "react";
-import {useDispatch} from "react-redux";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import {ingredientsRequest} from "../../services/slice/ingredientsSlice";
+import {clearIngredientInfo, ingredientsRequest} from "../../services/slice/ingredientsSlice";
 import {currentUserRequest} from "../../services/slice/userSlice";
 import Layout from "../Layout/Layout";
 import Home from "../../pages/Home";
@@ -15,11 +14,13 @@ import ResetPassword from "../../pages/ResetPassword";
 import Profile from "../../pages/Profile";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import NotFound from "../../pages/NotFound";
+import {useAppDispatch} from "../../services/hooks";
+import {resetOrderNumber} from "../../services/slice/orderSlice";
 
 
 function App() {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -33,8 +34,14 @@ function App() {
 
     const backgroundLocation = location.state?.background
 
-    const closePopup = () => {
-        navigate(backgroundLocation.pathname || '/', {replace: true})
+    const closePopup = (path: string) => {
+        if(path.includes('ingredients')) {
+            dispatch(clearIngredientInfo());
+        }
+        if(path.includes('order')) {
+            dispatch(resetOrderNumber());
+        }
+        navigate(backgroundLocation.pathname || '/', {replace: true});
     }
 
 

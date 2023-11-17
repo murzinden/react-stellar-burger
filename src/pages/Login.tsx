@@ -3,14 +3,14 @@ import cn from "classnames";
 import s from './Pages.module.css'
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
 import {authUserRequest} from "../services/slice/userSlice";
-
+import {ILogin} from "../services/types";
+import {useAppDispatch} from "../services/hooks";
 
 const Login = () => {
-    const [userData, setUserData] = useState({})
-    const dispatch = useDispatch()
-    const onChange = (e) => {
+    const [userData, setUserData] = useState<ILogin>({email: '', password: ''})
+    const dispatch = useAppDispatch()
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target
         setUserData({
             ...userData,
@@ -18,7 +18,7 @@ const Login = () => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const {email, password} = userData
         if (!email || !password) {
@@ -54,7 +54,7 @@ const Login = () => {
                 Войти
             </Button>
             <div className={cn(s.login_redirect, 'mb-4')}>
-                <p className="text text_type_main-default text_color_inactive">Вы - новый пользователь?</p>
+                <p className="text text_type_main-default text_color_inactive">Вы — новый пользователь?</p>
                 <Link to={"/register"}>
                     <Button
                         htmlType="button"

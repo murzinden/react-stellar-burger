@@ -1,12 +1,16 @@
 import React from 'react';
 import {Navigate, useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
 import PropTypes from "prop-types";
+import {useAppSelector} from "../../services/hooks";
 
-const ProtectedRoute = ({children, onlyUnAuth}) => {
+interface IProps {
+    children: React.ReactElement
+    onlyUnAuth?: boolean
+}
+const ProtectedRoute = ({children, onlyUnAuth}: IProps) => {
 
-    const currentUser = useSelector(state => state.userSlice.data)
-    const isAuthCheck = useSelector(state => state.userSlice.isAuthChecked)
+    const currentUser = useAppSelector(state => state.userSlice.data)
+    const isAuthCheck = useAppSelector(state => state.userSlice.isAuthChecked)
     const location = useLocation()
 
     if (!isAuthCheck) {

@@ -1,7 +1,14 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {request} from "../../utils/api";
+import {IIngredientType} from "../../utils/types";
 
-const initialState = {
+interface IState {
+    data: IIngredientType[]
+    isLoading: boolean
+    ingredient: IIngredientType | {}
+}
+
+const initialState: IState = {
     data: [],
     isLoading: true,
     ingredient: {}
@@ -48,4 +55,4 @@ const ingredientsSlice = createSlice({
 })
 
 export default ingredientsSlice.reducer
-export const {showIngredientInfo, clearIngredientInfo, addId} = ingredientsSlice.actions
+export const {showIngredientInfo, clearIngredientInfo} = ingredientsSlice.actions

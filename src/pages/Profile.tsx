@@ -1,19 +1,19 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {FC, useCallback, useRef, useState} from 'react';
 import s from './Pages.module.css'
 import cn from "classnames";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
 import {logoutUserRequest, updateUserRequest} from "../services/slice/userSlice";
+import {useAppDispatch, useAppSelector} from "../services/hooks";
 
-const Profile = () => {
-    const inputLoginRef = useRef(null)
-    const userData = useSelector(state => state.userSlice.data)
-    const dispatch = useDispatch()
-    const [user, setUser] = useState({name: userData.name, email: userData.email, password: 'password'})
-    const [oldUser, setOldUser] = useState({name: userData.name, email: userData.email, password: 'password'})
+const Profile: FC = () => {
+    const inputLoginRef = React.useRef<HTMLInputElement>(null)
+    const userData = useAppSelector(state => state.userSlice.data)
+    const dispatch = useAppDispatch()
+    const [user, setUser] = useState({name: userData!.name, email: userData!.email, password: ''})
+    const [oldUser, setOldUser] = useState({name: userData!.name, email: userData!.email, password: ''})
 
-    const onChange = (e) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target
         setUser({
             ...user,
@@ -21,12 +21,12 @@ const Profile = () => {
         })
     }
 
-    const submitHandler = (e) => {
+    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         dispatch(updateUserRequest(user))
     }
 
-    const handleRestore = (e) => {
+    const handleRestore = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault()
         setUser(oldUser)
     }
@@ -72,8 +72,7 @@ const Profile = () => {
                     onChange={onChange}
                     name={'email'}
                     placeholder="E-mail"
-                    isIcon={false}
-                    icon={'EditIcon'}
+                    isIcon={true}
                     extraClass="mt-6"
                 />
                 <PasswordInput
@@ -85,14 +84,15 @@ const Profile = () => {
                     extraClass="mt-6"
                 />
                 <div className={cn(s.profile_buttons, "mt-6")}>
-                    <Button
-                        htmlType="button"
-                        type="secondary"
-                        size="large"
-                        onClick={handleRestore}
-                    >
-                        Отмена
-                    </Button>
+                    <div onClick={handleRestore}>
+                        <Button
+                            htmlType="button"
+                            type="secondary"
+                            size="large"
+                        >
+                            Отмена
+                        </Button>
+                    </div>
                     <Button
                         htmlType="submit"
                         type="primary"

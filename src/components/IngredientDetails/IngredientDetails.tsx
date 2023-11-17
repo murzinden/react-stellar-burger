@@ -1,12 +1,11 @@
 import React from 'react';
 import cn from "classnames"
 import s from '../Modal/Modal.module.css'
-import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-
+import { useAppSelector} from "../../services/hooks";
 
 const IngredientDetails = () => {
-    const {data, isLoading} = useSelector(state => state.ingredientsSlice)
+    const {data} = useAppSelector(state => state.ingredientsSlice)
     const {id} = useParams()
 
 

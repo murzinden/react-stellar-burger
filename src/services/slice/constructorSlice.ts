@@ -7,7 +7,7 @@ interface IState {
     bun: IIngredientType | null
 }
 
-const initialState: IState = {
+export const initialState: IState = {
     items: [],
     bun: null
 }

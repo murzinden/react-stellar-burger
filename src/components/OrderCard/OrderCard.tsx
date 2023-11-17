@@ -17,7 +17,7 @@ const OrderCard = ({order, ordersIngredientArray}: IProps) => {
 
     const {isUserLoaded} = useAppSelector(state => state.userSlice)
     const location = useLocation()
-    const id = order._id
+    const number = order.number
     const dispatch = useAppDispatch()
 
     const NUMBER_SHOW_INGREDIENTS = 5
@@ -80,12 +80,12 @@ const OrderCard = ({order, ordersIngredientArray}: IProps) => {
                     ordersIngredientArray.map((el, index) =>
                         <span style={{zIndex: `${NUMBER_SHOW_INGREDIENTS - index}`}} key={index}
                               className={cn(s.ingredient_icon)}>
-                <img className={cn(s.ingredient_img)} src={el.image_mobile} alt={el.name} key={index}/>
+                <img className={cn(s.ingredient_img)} src={el?.image_mobile} alt={el?.name} key={index}/>
               </span>) :
                     ordersArrayToShow.map((el, index) =>
                         <span style={{zIndex: `${NUMBER_SHOW_INGREDIENTS - index}`}} key={index}
                               className={cn(s.ingredient_icon)}>
-                <img className={cn(s.ingredient_img)} src={el.image_mobile} alt={el.name} key={index}/>
+                <img className={cn(s.ingredient_img)} src={el?.image_mobile} alt={el?.name} key={index}/>
               </span>)}
                 {hiddenImg && <span className={cn(s.ingredient_icon)}>
                  <img className={cn(s.ingredient_img)} src={hiddenImg} alt=""/>
@@ -105,7 +105,7 @@ const OrderCard = ({order, ordersIngredientArray}: IProps) => {
     if (isUserLoaded && location.pathname.includes('profile')) {
         return (
             <Link
-                to={`/profile/orders/${id}`}
+                to={`/profile/orders/${number}`}
                 state={{background: location}}
                 onClick={orderHandler}
                 className={cn(s.container_user_order, 'p-6 mb-6')}>
@@ -127,17 +127,17 @@ const OrderCard = ({order, ordersIngredientArray}: IProps) => {
     } else {
         return (
             <Link
-                to={`/feed/${id}`}
+                to={`/feed/${number}`}
                 state={{background: location}}
                 onClick={orderHandler}
                 className={cn(s.container, 'p-6 mb-6')}>
                 <div className={cn(s.order_heading)}>
-                    <p className={'text text_type_digits-default'}>{order.number}</p>
+                    <p className={'text text_type_digits-default'}>{order?.number}</p>
                     <p className={'text text_type_main-default text_color_inactive'}>
                         {date()}
                     </p>
                 </div>
-                <p className={cn(s.order_name, "text text_type_main-medium")}>{order.name}</p>
+                <p className={cn(s.order_name, "text text_type_main-medium")}>{order?.name}</p>
                 {commonPartCard}
             </Link>
         );

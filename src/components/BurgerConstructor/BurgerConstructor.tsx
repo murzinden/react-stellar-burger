@@ -50,9 +50,8 @@ const BurgerConstructor = () => {
 
 
     return (
-        <>
-            <section className={cn(s.burger__constructor)} ref={dropTarget}>
-                {bun && <div className={cn(s.burger__item, 'ml-8 mb-4')}>
+            <section className={cn(s.burger__constructor)} ref={dropTarget} data-cy="constructor">
+                {bun && <div className={cn(s.burger__item, 'ml-8 mb-4')} data-cy="constructor-bun-1">
                     <ConstructorElement
                         type="top"
                         isLocked={true}
@@ -61,7 +60,7 @@ const BurgerConstructor = () => {
                         price={bun.price}
                     />
                 </div>}
-                <ul className={cn(s.burger__list, s.scroll__container)}>
+                <ul className={cn(s.burger__list, s.scroll__container)} data-cy="constructor-element">
                     {items?.map((item, index) => {
                         return (<BurgerConstructorElement
                             key={item.uuid}
@@ -71,7 +70,7 @@ const BurgerConstructor = () => {
                     })
                     }
                 </ul>
-                {bun && <div className={cn(s.burger__item, 'ml-8')}>
+                {bun && <div className={cn(s.burger__item, 'ml-8')} data-cy="constructor-bun-2">
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
@@ -81,7 +80,13 @@ const BurgerConstructor = () => {
                     />
                 </div>}
                 <div className={cn(s.burger__order, 'mt-10')}>
-                    <Button disabled={bun === null || items.length < 1} onClick={onClickHandler} htmlType="button" type="primary" size="large">
+                    <Button
+                        disabled={bun === null || items.length < 1}
+                        onClick={onClickHandler}
+                        htmlType="button"
+                        type="primary"
+                        size="large"
+                        data-cy="constructor-order">
                         Оформить заказ
                     </Button>
                     <div className={cn(s.burger__price, 'mr-10')}>
@@ -90,7 +95,6 @@ const BurgerConstructor = () => {
                     </div>
                 </div>
             </section>
-        </>
     );
 };
 

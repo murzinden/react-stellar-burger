@@ -8,7 +8,7 @@ interface IState {
     ingredient: IIngredientType | {}
 }
 
-const initialState: IState = {
+export const initialState: IState = {
     data: [],
     isLoading: true,
     ingredient: {}

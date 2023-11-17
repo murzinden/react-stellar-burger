@@ -39,7 +39,7 @@ const AppHeader: FC = () => {
                     </NavLink>
                 </div>
                 <NavLink to={'/'} className={cn(s.header__logo)}>
-                    <div >
+                    <div>
                         <Logo/>
                     </div>
                 </NavLink>

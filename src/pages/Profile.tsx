@@ -8,10 +8,10 @@ import ProfileFormEdit from "../components/ProfileEdit/ProfileEdit";
 import OrderCardsContainer from "../components/OrderCardsContainer/OrderCardsContainer";
 import {wsConnect, wsDisconnect} from "../services/reducers/web-socket/actions";
 import {getAccessToken} from "../utils/token";
+import {WS_URL} from "../utils/api";
 
 const Profile: FC = () => {
 
-    const url = 'wss://norma.nomoreparties.space/orders'
     const queryTokenArr = getAccessToken()?.split(' ')
     let queryToken: string | null = null
     if (queryTokenArr) {
@@ -24,7 +24,7 @@ const Profile: FC = () => {
     }, [])
 
     useEffect(() => {
-        dispatch(wsConnect(`${url}?token=${queryToken}`))
+        dispatch(wsConnect(`${WS_URL}?token=${queryToken}`))
         return () => {
             dispatch(wsDisconnect())
         }

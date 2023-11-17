@@ -14,6 +14,7 @@ const ModalOverlay: FC<IProps> = ({closePopup}) => {
         <div
             onClick={() => closePopup(location.pathname)}
             className={s.overlay}
+            data-cy="close-by-overlay"
         >
         </div>
     );

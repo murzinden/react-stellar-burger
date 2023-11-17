@@ -43,9 +43,6 @@ function App() {
         if (path.includes('order')) {
             dispatch(resetOrderNumber())
         }
-        if (path.includes('feed')) {
-            localStorage.removeItem('orderInfo')
-        }
         navigate(backgroundLocation.pathname || "/", {replace: true})
     };
 
@@ -106,6 +103,14 @@ function App() {
                         path="ingredients/:id"
                         element={<IngredientDetails/>}
                     />
+                    <Route
+                        path="profile/orders/:number"
+                        element={<ProtectedRoute><OrderDetailsInfo/></ProtectedRoute>}
+                    />
+                    <Route
+                        path="/feed/:number"
+                        element={<OrderDetailsInfo/>}
+                    />
                 </Route>
             </Routes>
             {backgroundLocation &&
@@ -116,10 +121,10 @@ function App() {
                     <Route path='/order' element={<Modal closePopup={closePopup}>
                         <OrderDetails/>
                     </Modal>}/>
-                    <Route path='/feed/:id' element={<Modal closePopup={closePopup}>
+                    <Route path='/feed/:number' element={<Modal closePopup={closePopup}>
                         <OrderDetailsInfo/>
                     </Modal>}/>
-                    <Route path='/profile/orders/:id' element={<Modal closePopup={closePopup}>
+                    <Route path='/profile/orders/:number' element={<Modal closePopup={closePopup}>
                         <OrderDetailsInfo/>
                     </Modal>}/>
                 </Routes>}

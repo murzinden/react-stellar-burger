@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {request} from "../../utils/api";
+import {getOrderWithRefresh, refreshToken, request} from "../../utils/api";
 import {clearConstructor} from "./constructorSlice";
 import {IOrderResponse, IOrdersElement} from "../types";
 import {IIngredientType} from "../../utils/types";
@@ -9,6 +9,7 @@ import {getAccessToken} from "../../utils/token";
 interface IState {
     orderNumber: number
     isLoading: boolean
+    orderNumberFromParams: number
     orderInfo: {
         totalPrice: number
         ingredients: IIngredientType[]
@@ -16,9 +17,10 @@ interface IState {
     }
 }
 
-const initialState: IState = {
+export const initialState: IState = {
     orderNumber: 0,
     isLoading: false,
+    orderNumberFromParams: 0,
     orderInfo: {
         totalPrice: 0,
         ingredients: [],
@@ -46,8 +48,17 @@ export const orderNumberRequest = createAsyncThunk<IOrderResponse, Array<string>
                 })
             dispatch(clearConstructor())
             return fulfillWithValue(data)
-        } catch (error) {
-            return rejectWithValue(error)
+        } catch (error: any) {
+            if(error.message === 'jwt expired') {
+                const res = await refreshToken();
+                if(res.success) {
+                    const data = await getOrderWithRefresh(array);
+                    if(data.success)
+                        return fulfillWithValue(data)
+                    else return rejectWithValue(data)
+                }
+            }
+            return rejectWithValue(error);
         }
     }
 )

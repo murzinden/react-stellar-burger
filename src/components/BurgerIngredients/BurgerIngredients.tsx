@@ -40,7 +40,7 @@ const BurgerIngredients = () => {
                     Начинки
                 </Tab>
             </div>
-            <div className={cn(s.scroll__container)}>
+            <div className={cn(s.scroll__container)} data-cy="ingredients">
                 <BurgerIngredientsCategory
                     setCurrentTab={setCurrentTab}
                 />

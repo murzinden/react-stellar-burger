@@ -13,7 +13,3 @@ export interface IIngredientType {
     _id: string,
     uuid?: string
 }
-
-export interface IUniqueType {
-    [key: string]: IIngredientType & { count: number };
-}

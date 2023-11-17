@@ -35,7 +35,7 @@ const Modal: FC<IProps> = ({children, closePopup}) => {
     return createPortal(
         <>
             <div className={cn(s.modal)}>
-                <div className={cn(s.modal__closeIcon)}>
+                <div className={cn(s.modal__closeIcon)} data-cy="close-icon-popup">
                     <CloseIcon type="primary" onClick={() => closePopup(location.pathname)}/>
                 </div>
                 {children}

@@ -27,7 +27,7 @@ const OrderDetails = () => {
                 <p className={"text text_type_main-large"}></p>
             </div>
             <div className={cn(s.modal__info)}>
-                <p className="text text_type_digits-large mb-8">
+                <p className="text text_type_digits-large mb-8" data-cy="order-number">
                     {isLoading ? 'Loading' : orderNumber}
                 </p>
                 <p className="text text_type_main-medium">идентификатор заказа</p>

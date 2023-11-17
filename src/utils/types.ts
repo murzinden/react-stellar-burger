@@ -1,4 +1,3 @@
-
 export interface IIngredientType {
     calories: number,
     carbohydrates: number,
@@ -13,4 +12,8 @@ export interface IIngredientType {
     __v: number,
     _id: string,
     uuid?: string
+}
+
+export interface IUniqueType {
+    [key: string]: IIngredientType & { count: number };
 }

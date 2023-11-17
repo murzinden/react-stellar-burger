@@ -7,7 +7,6 @@ import {registerUserRequest} from "../services/slice/userSlice";
 import {useAppDispatch, useAppSelector} from "../services/hooks";
 import {IInputRegisterUpdate} from "../services/types";
 
-
 const Register = () => {
     const dispatch = useAppDispatch()
     const userData = useAppSelector(state => state.userSlice)

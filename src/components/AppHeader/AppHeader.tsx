@@ -6,7 +6,7 @@ import {FC} from "react";
 
 const AppHeader: FC = () => {
     const isConstructor = useMatch('/')
-    const isLine = useMatch('/line')
+    const isFeed = useMatch('/feed')
     const isProfile = useMatch('/profile')
 
     interface INavLink {
@@ -31,10 +31,10 @@ const AppHeader: FC = () => {
                         <span>Конструктор</span>
                     </NavLink>
                     <NavLink
-                        to={"/line"}
+                        to={"/feed"}
                         className={setClassName}
                     >
-                        <ListIcon type={isLine ? "primary" : "secondary"}/>
+                        <ListIcon type={isFeed ? "primary" : "secondary"}/>
                         <span>Лента заказов</span>
                     </NavLink>
                 </div>

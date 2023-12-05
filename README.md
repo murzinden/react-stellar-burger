@@ -1,8 +1,6 @@
-## Аппликация для космической бургерной "Stellar Burger".
+## Application for the space-themed burger joint "Stellar Burger".
 
-## Учебный проект ЯндексПрактикум, курс фронтенд-разработчик (bootcamp)
 
-В проекте задействованы технологии и библиотеки: HTML, CSS, JavaScript, TypeScript, React, React DND, React Router,
-Redux ToolKit. Подключено взаимодействие c сервером через серверные запросы, а также WebSocket connection.
-[доступен по ссылке](https://murzinden.github.io/react-stellar-burger/)
+Technologies and libraries used in the project: HTML, CSS, JavaScript, TypeScript, React, React DND, React Router, Redux ToolKit. Server interaction is enabled through server requests, as well as WebSocket connection.
+[Available at the link.](https://murzinden.github.io/react-stellar-burger/)
 
